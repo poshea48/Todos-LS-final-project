@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <title>Assessment 239</title>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="stylesheets/reset.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="stylesheets/main.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="/javascripts/main.js"></script>
+    <script type="text/babel" src="./src/index.js"></script>
+    
+  </head>
+  <body>
+    <input type="checkbox" id="nav_toggle">
+    <nav>
+      <section id="all_todos">
+        <header class="active highlight">
+          <dl>
+            <dt>All Todos</dt>
+            <dd class="elipse">0</dd>
+          </dl>
+        </header>
+        <ul></ul>
+      </section>
+
+      <section id="completed_todos">
+        <header class="highlight">
+          <dl>
+            <dt>Completed</dt>
+            <dd class="elipse">0</dd>
+          </dl>
+        </header>
+        <ul></ul>
+      </section>
+    </nav>
+
+    <main>
+      <header>
+        <label for="nav_toggle">
+          <img id="toggle" src="images/hamburger_icon.png" alt="toggle Nav">
+        </label>
+        <dl>
+          <dt id="todo_group" data-type="all">All Todos</dt>
+          <dd class="elipse">0</dd>
+        </dl>
+      </header>
+
+      <section id="list_container">
+        <a href="#" class="add_icon">
+          <img src="images/add_icon.png" alt="add icon" />
+          <p>Add new todo</p>
+        </a>
+        <div id="list_items"></div>
+      </section>
+
+      <div id="overlay" class="modal"></div>
+      <div id="modal"></div>
+
+    </main>
+    <script id="todos_template" type="text/x-handlebars">
+      <table>
+        {{#each todos}}
+        <tr data-id="{{id}}">
+          <td class="check_row">
+            <input type="checkbox" name="item_{{id}}" id="item_{{id}}" />
+            {{#if completed}}
+            <span id="toggle_check" class="checked"></span>
+            {{else}}
+            <span id="toggle_check" class="unchecked"></span>
+            {{/if}}
+            <label for="item_{{id}}">{{title}} - {{date}}</label>
+          </td>
+          <td class="delete" data-id="{{id}}">
+            <img src="images/trash_icon.png" alt="delete_todo">
+          </td>
+        </tr>
+        {{/each}}
+      </table>
+    </script>
+    <script id="grouped_templates" type="text/x-handlebars">
+      {{#each groups}}
+      <li class="group highlight">
+        <dl>
+          <dt>{{date}}</dt>
+          <dd class="elipse">{{amount}}</dd>
+        </dl>
+      </li>
+      {{/each}}
+    </script>
+
+    <script id="modal_template" type="text/x-handlebars">
+      {{#if .}}
+      <form id="edit_form" action="/api/todos/{{id}}" method="post">
+      {{else}}
+      <form id="blank_form" action="/api/todos/" method="post">
+      {{/if}}
+        <dl class="title">
+          <dt><label for="title">Title</label></dt>
+          <dd><input type="text" name="title" placeholder="Item" id="title" required value="{{title}}"/></dd>
+        </dl>
+        <dl class="date">
+          <dt><label for="due_date">Due Date</label></dt>
+          <dd>
+            <select type="number" name="day" id="day">
+              <option>Day</option>
+              <option value="01">1</option>
+              <option value="02">2</option>
+              <option value="03">3</option>
+              <option value="04">4</option>
+              <option value="05">5</option>
+              <option value="06">6</option>
+              <option value="07">7</option>
+              <option value="08">8</option>
+              <option value="09">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="17">17</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+              <option value="21">21</option>
+              <option value="22">22</option>
+              <option value="23">23</option>
+              <option value="24">24</option>
+              <option value="25">25</option>
+              <option value="26">26</option>
+              <option value="27">27</option>
+              <option value="28">28</option>
+              <option value="29">29</option>
+              <option value="30">30</option>
+              <option value="31">31</option>
+            </select>
+            /
+            <select name="month" id="month" value="{{month}}">
+              <option>Month</option>
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+              /
+            <select name="year" id="year" value="{{year}}">
+              <option>Year</option>
+              <option>2018</option>
+              <option>2019</option>
+              <option>2020</option>
+              <option>2021</option>
+              <option>2022</option>
+            </select>
+          </dd>
+        </dl>
+        <dl class="description">
+          <dt><label for="description">Description</label></dt>
+          <dd>
+            <textarea placeholder="Description" id="description">{{description}}</textarea>
+          </dd>
+        </dl>
+        <dl>
+          <dt></dt>
+          <dd>
+            <button id="save" data-id="{{id}}" class="modal_button" type="submit">Save</button>
+            {{#if completed}}
+            <button id="mark_complete" data-id="{{id}}" class="modal_button" type="submit">Mark As Incomplete</button>
+            {{else}}
+            <button id="mark_complete" data-id="{{id}}" class="modal_button" type="submit">Mark As Complete</button>
+            {{/if}}
+          </dd>
+        </dl>
+      </form>
+    </script>
+    <div id="signup_tourney_form" class="container-fluid">
+
+    </div>
+    <!-- Load React. -->
+  <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+  <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+  <!-- Load our React component. -->
+  </body>
+</html>

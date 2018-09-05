@@ -1,0 +1,23 @@
+{
+  "name": "Assessment_239",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2"
+  },
+  "devDependencies": {
+    "webpack": "^4.16.3",
+    "webpack-cli": "^3.1.0"
+  }
+}
